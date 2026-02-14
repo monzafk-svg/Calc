@@ -1,0 +1,70 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calculadora Avançada</title>
+<style>
+body {font-family: Arial; background:#111; color:#fff; padding:20px;}
+h2 {text-align:center;}
+input, select, button {
+    width:100%;
+    padding:12px;
+    margin:8px 0;
+    font-size:16px;
+    border-radius:8px;
+    border:none;
+}
+button {background:#6a00ff; color:#fff;}
+.result {background:#222; padding:12px; margin-top:10px; border-radius:8px;}
+</style>
+</head>
+<body>
+
+<h2>Calculadora Avançada</h2>
+
+<label>Valor entregue (R$)</label>
+<input id="principal" type="number" placeholder="Ex: 1000">
+
+<label>Quantidade de parcelas</label>
+<input id="parcelas" type="number" placeholder="Ex: 12">
+
+<label>Taxa por parcela</label>
+<select id="taxa">
+<option value="0.0105">1.05%</option>
+<option value="0.0115">1.15%</option>
+</select>
+
+<label>Lucro desejado por 1000 (R$)</label>
+<input id="lucroMil" type="number" value="50">
+
+<button onclick="calcular()">Calcular</button>
+
+<div class="result" id="saida">Resultado aparecerá aqui</div>
+
+<script>
+function calcular(){
+    let P = parseFloat(document.getElementById("principal").value);
+    let n = parseInt(document.getElementById("parcelas").value);
+    let taxa = parseFloat(document.getElementById("taxa").value);
+    let lucroMil = parseFloat(document.getElementById("lucroMil").value);
+
+    if(!P || !n){ document.getElementById("saida").innerText="Preencha os campos"; return; }
+
+    let taxaTotal = n * taxa;
+    let lucro = (P/1000) * lucroMil;
+
+    let cobrar = (P + lucro) / (1 - taxaTotal);
+    let parcelaValor = cobrar / n;
+
+    document.getElementById("saida").innerHTML =
+        "Total cobrar: R$ "+cobrar.toFixed(2)+"<br>"+
+        "Valor parcela: R$ "+parcelaValor.toFixed(2)+"<br>"+
+        "Lucro: R$ "+lucro.toFixed(2)+"<br>"+
+        "Taxa total: "+(taxaTotal*100).toFixed(2)+"%";
+}
+</script>
+
+</body>
+</html>
